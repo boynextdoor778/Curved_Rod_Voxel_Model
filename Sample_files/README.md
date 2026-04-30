@@ -6,3 +6,4 @@ Files:
 - summary_metrics_sample.csv: summary metrics extracted from stress-strain and force-displacement curves.
 - stress_strain_sample.csv: sample stress-strain curve.
 - force_displacement_sample.csv: sample force-displacement curve.
+- figures/: sample validation plots, including parameter-performance scatter plots and the correlation matrix.
