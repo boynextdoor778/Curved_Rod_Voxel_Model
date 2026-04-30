@@ -1,0 +1,35 @@
+# Generated model/data folders
+Abaqus_Work/
+Result/
+Output/
+batch_curved_x/
+archive_old/
+
+# Abaqus generated files
+*.odb
+*.dat
+*.msg
+*.sta
+*.prt
+*.sim
+*.stt
+*.mdl
+*.lck
+*.023
+*.com
+*.log
+*.env
+*.cae
+*.jnl
+
+# Large generated input/data files
+*.inp
+*.mat
+
+# Python cache
+__pycache__/
+*.pyc
+
+# MATLAB temporary files
+*.asv
+*.m~
