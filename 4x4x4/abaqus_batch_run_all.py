@@ -45,22 +45,12 @@ import regionToolset
 # ============================================================
 
 # Root folder of the whole project.
-ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
+ROOT_DIR = os.getcwd()
 
-# Choose default branch: '2x2x2' or '4x4x4'.
-# Command-line INP_DIR override is still supported and the branch will be inferred
-# from the folder/file name when possible.
-RUN_SIZE = '4x4x4'
-
-# Folder containing all .inp files exported from MATLAB.
 INP_DIR = os.path.join(ROOT_DIR, 'Output')
-
-# Work folder. Job files, odb, dat, msg, sta, etc. will be written here.
-# IMPORTANT: do not put this on C drive if models are large.
 WORK_ROOT = os.path.join(ROOT_DIR, 'Abaqus_Work')
-
-# Result folder. CSV curves and batch logs will be written here.
 RESULT_ROOT = os.path.join(ROOT_DIR, 'Results')
+SCRATCH_ROOT = os.path.join(ROOT_DIR, 'Abaqus_Scratch')
 
 # Names used by your exported INP
 PART_NAME = 'LATTICE'
@@ -92,11 +82,13 @@ BC_BOTTOM_NAME = 'BC_bottom_fix'
 BC_TOP_NAME = 'BC_top_fix'
 
 # Compression / stress-strain conversion
-# 4x4x4: height = 80 mm, compression displacement = -16 mm for 20% strain
-# 2x2x2: height = 40 mm, compression displacement = -8 mm for 20% strain
+# Fixed-size branch: 4x4x4
+# Height = 80 mm, compression displacement = -16 mm for 20% strain.
+BRANCH_NAME = '4x4x4'
 COMPRESSION_STRAIN = 0.20
-DEFAULT_H0 = 80.0
-DEFAULT_A0 = 80.0 * 80.0
+H0 = 80.0
+A0 = 80.0 * 80.0
+DISP_Z = -COMPRESSION_STRAIN * H0
 
 # Job settings
 NUM_CPUS = 8
@@ -143,32 +135,17 @@ def safe_mkdir(path):
         os.makedirs(path)
 
 
-def infer_run_size_from_text(text_value, default_size):
-    """Infer 2x2x2 / 4x4x4 from folder, file, model, or case name."""
-    lower = str(text_value).lower()
-    if '2x2x2' in lower or 'rep222' in lower:
-        return '2x2x2'
-    if '4x4x4' in lower or 'rep444' in lower:
-        return '4x4x4'
-    return default_size
-
-
 def get_specimen_settings(name_value):
     """Return fixed specimen height, area, and compression displacement for this branch."""
-    run_size = RUN_SIZE
-    h0 = 80
-    a0 = 6400
-    disp_z = -16
-    return {'run_size': run_size, 'H0': h0, 'A0': a0, 'DISP_Z': disp_z}
+    return {'run_size': BRANCH_NAME, 'H0': H0, 'A0': A0, 'DISP_Z': DISP_Z}
 
 
 def configure_roots_for_inp_dir(inp_dir):
     """Use local branch folders: Output, Abaqus_Work, and Results."""
     global WORK_ROOT, RESULT_ROOT
-    run_size = RUN_SIZE
     WORK_ROOT = os.path.join(ROOT_DIR, 'Abaqus_Work')
     RESULT_ROOT = os.path.join(ROOT_DIR, 'Results')
-    return run_size
+    return BRANCH_NAME
 
 
 def write_csv_rows(csv_path, header, rows, append=False):
