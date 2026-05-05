@@ -300,33 +300,6 @@ SOLID_DENSITY_G_CM3
 
 ---
 
-## Recommended GitHub upload rule
-
-Do not upload large simulation result files to GitHub.
-
-Recommended to exclude:
-
-```text
-*.inp
-*.odb
-*.stl
-*.dat
-*.msg
-*.sta
-*.lck
-*.sim
-*.stt
-*.mdl
-Abaqus_Work/
-Results/
-Output/
-batch_curved_x/4x4x4_mat/
-```
-
-Only upload source code, README files, and small sample files.
-
----
-
 ## Version history
 
 ### V1.0
