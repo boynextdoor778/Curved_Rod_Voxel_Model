@@ -1,0 +1,75 @@
+<3D print note>
+=======================================
+Purpose:
+This note is only for Bambu Studio / 3D printing. It is separated from the Abaqus simulation workflow.
+
+Recommended printing workflow:
+1) Run 'batch_generate_curved_x.m' if the original single-cell '.mat' files have not been generated.
+2) Choose one printing channel:
+   - 2x2x2 test print:
+     batch_repeat222_and_export_inp
+     batch_export_mat_voxel_to_stl_222
+
+   - 4x4x4 full-size print:
+     batch_repeat444_and_export_inp
+     batch_export_mat_voxel_to_stl_444
+
+3) Import the generated '.stl' file into Bambu Studio.
+4) Slice the model and check support, material usage, and printing time.
+5) Start with 2x2x2 before printing 4x4x4.
+
+Folder structure:
+1) 2x2x2 printing:
+   STL_2x2x2
+
+2) 4x4x4 printing:
+   STL_4x4x4
+
+Size reference:
+1) If 'nVoxel = 80' and 'voxelSize = [0.25 0.25 0.25]':
+   - one cell size = 20 mm
+   - 2x2x2 specimen size = about 40 mm
+   - 4x4x4 specimen size = about 80 mm
+
+2) 2x2x2 has half the length, width, and height of 4x4x4.
+   Therefore, its volume is about 1/8 of the 4x4x4 model.
+
+Important:
+1) Do not scale the 2x2x2 model down to 50% again in Bambu Studio unless a much smaller model is intended.
+   The 2x2x2 file is already the reduced test-print version.
+
+2) If the rod diameter is already adjusted for printing, keep the scale at 100% first.
+   Additional scaling will also scale down the rod diameter.
+
+3) Support material is expected because the curved-X lattice contains overhangs and suspended regions.
+
+4) The current setup can use:
+   - main material: TPU 90A
+   - support material: PVA
+
+5) PVA support can increase printing time and material usage.
+   Check the sliced preview carefully before printing.
+
+Bambu Studio checks:
+1) Confirm the imported model size:
+   - 2x2x2: about 40 mm
+   - 4x4x4: about 80 mm
+
+2) Check the first layer and bed contact.
+   A brim can be enabled if bed adhesion is poor.
+
+3) Check support regions in preview mode.
+   Yellow / support-colored regions are support material.
+   Main model material and support material should not be confused.
+
+4) Check whether the slicer asks for model simplification.
+   Simplification is not recommended unless the STL is too heavy to process.
+
+5) Check estimated printing time before printing.
+   The 2x2x2 version is the preferred quick validation model.
+
+Suggested testing strategy:
+1) Print one 2x2x2 sample first.
+2) Check whether the rods are too thin, whether supports can be removed, and whether the lattice keeps its shape.
+3) If the 2x2x2 print is acceptable, then print selected 4x4x4 samples.
+4) Avoid printing all generated samples before confirming one successful test print.
