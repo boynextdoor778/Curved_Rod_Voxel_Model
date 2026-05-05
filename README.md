@@ -390,35 +390,6 @@ For practical printing, the original 1.3–1.6 mm rod diameter may be too thin. 
 
 ---
 
-## GitHub upload rule
-
-Do not upload large simulation result files to GitHub.
-
-Recommended to exclude:
-
-```text
-*.inp
-*.odb
-*.stl
-*.dat
-*.msg
-*.sta
-*.lck
-*.sim
-*.stt
-*.mdl
-Abaqus_Work/
-Results/
-Output/
-STL/
-Abaqus_Scratch/
-batch_curved_x/*_mat/
-```
-
-Only upload source code, README files, printing notes, and small sample files.
-
----
-
 ## Version history
 
 ### V1.0
