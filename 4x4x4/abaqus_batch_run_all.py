@@ -52,6 +52,14 @@ WORK_ROOT = os.path.join(ROOT_DIR, 'Abaqus_Work')
 RESULT_ROOT = os.path.join(ROOT_DIR, 'Results')
 SCRATCH_ROOT = os.path.join(ROOT_DIR, 'Abaqus_Scratch')
 
+# Force Abaqus/Python temporary files to D-drive branch scratch folder.
+if not os.path.isdir(SCRATCH_ROOT):
+    os.makedirs(SCRATCH_ROOT)
+
+os.environ['TEMP'] = SCRATCH_ROOT
+os.environ['TMP'] = SCRATCH_ROOT
+os.environ['TMPDIR'] = SCRATCH_ROOT
+
 # Names used by your exported INP
 PART_NAME = 'LATTICE'
 INSTANCE_NAME = 'LATTICE-1'
@@ -433,7 +441,7 @@ def create_and_run_job(model_name, job_name):
         contactPrint=OFF,
         historyPrint=OFF,
         userSubroutine='',
-        scratch='',
+        scratch=SCRATCH_ROOT,
         multiprocessingMode=DEFAULT,
         numCpus=NUM_CPUS,
         numDomains=NUM_DOMAINS,
@@ -606,6 +614,7 @@ def main():
 
     safe_mkdir(WORK_ROOT)
     safe_mkdir(RESULT_ROOT)
+    safe_mkdir(SCRATCH_ROOT)
 
     inp_files = list_inp_files(inp_dir)
 
