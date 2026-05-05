@@ -38,14 +38,16 @@ targetN = 16; % target number of accepted samples
 rngSeed = 1;
 rng(rngSeed);
 
-radiusMin = 0.032; % strut radius minimum
-radiusMax = 0.041; % strut radius maximum
-bendMin   = 0.06;  % bend amplitude minimum
-bendMax   = 0.12;  % bend amplitude maximum
+%diameter = 2 × radius × single_cell_size
+%single_cell_size = nVoxel x voxelSize
+radiusMin = 0.075; % 2 x 0.075 x 20 = 3.0 mm diameter
+radiusMax = 0.100; % 2 x 0.100 x 20 = 4.0 mm diameter
+bendMin   = 0.06;  
+bendMax   = 0.12;  
 
 useDensityFilter = true;
-densityMin = 0.022;
-densityMax = 0.046;
+densityMin = 0.10;
+densityMax = 0.30;
 
 trialFactor = 1.5;
 Ntrial = ceil(targetN * trialFactor);
