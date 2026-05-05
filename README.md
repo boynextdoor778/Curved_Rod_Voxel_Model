@@ -1,4 +1,15 @@
 README
+
+## Version
+Current version: V2.0
+
+Main updates:
+- Added separated 2x2x2 and 4x4x4 workflows
+- Added STL export branch for Bambu Studio / 3D printing
+- Added compact Abaqus INP exporter to reduce unnecessary nodes
+- Added separated Output, STL, Abaqus_Work, and Results folders
+- Added 3D_print_note for practical slicing and printing settings
+
 =======================================
 Normal usage:
 1) Run 'batch_generate_curved_x.m'
