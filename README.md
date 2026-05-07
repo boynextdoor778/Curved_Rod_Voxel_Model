@@ -1,6 +1,6 @@
 # Curved Rod Voxel Model
 
-Author: Xiang Lang  
+Author: Alex Lang  
 Version: V1.0 Single-scale 4x4x4 Abaqus simulation workflow
 
 This repository provides a MATLAB–Abaqus workflow for generating curved-rod voxel lattice specimens, exporting mesh-only Abaqus `.inp` files, running compression simulations, and automatically extracting force–displacement and stress–strain curves.
