@@ -1,6 +1,6 @@
 # Curved Rod Voxel Model
 
-Author: Xiang Lang  
+Author: Alex Lang  
 Version: V2.0 Dual-scale simulation and 3D-printing workflow
 
 This repository provides a MATLAB–Abaqus workflow for generating curved-rod voxel lattice specimens, exporting compact mesh-only Abaqus `.inp` files, running compression simulations, extracting force–displacement and stress–strain curves, and preparing STL files for 3D printing.
