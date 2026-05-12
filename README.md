@@ -1,32 +1,46 @@
 # Curved Rod Voxel Model
 
-Author: Alex Lang  
-Version: V2.0 Dual-scale simulation and 3D-printing workflow
+![MATLAB](https://img.shields.io/badge/MATLAB-voxel%20generation-orange)
+![Abaqus](https://img.shields.io/badge/Abaqus-compression%20FEM-blue)
+![Python](https://img.shields.io/badge/Python-postprocessing-green)
+![STL](https://img.shields.io/badge/STL-3D%20printing-lightgrey)
+![status](https://img.shields.io/badge/status-V2.0%20dual--scale-brightgreen)
 
-This repository provides a MATLAB–Abaqus workflow for generating curved-rod voxel lattice specimens, exporting compact mesh-only Abaqus `.inp` files, running compression simulations, extracting force–displacement and stress–strain curves, and preparing STL files for 3D printing.
+A MATLAB–Abaqus workflow for **curved-rod voxel lattice generation**, dual-scale `2x2x2` / `4x4x4` compression simulation, automatic force–displacement and stress–strain extraction, and STL preparation for 3D printing.
 
-The current version contains two separated branches:
-
-- `2x2x2`: small-scale specimen for fast simulation and 3D-printing tests
-- `4x4x4`: full-size specimen for mechanical simulation and dataset generation
+This repository is the original **voxel-based curved-rod lattice workflow**. It is kept as a complete reference pipeline for voxel lattice generation, compact Abaqus `.inp` export, automated compression simulation, and printing-oriented STL export.
 
 ---
 
 ## Version
 
-Current version: V2.0
+**Current version:** `V2.0 Dual-scale simulation and 3D-printing workflow`
 
 Main updates:
 
-- Added separated `2x2x2` and `4x4x4` workflows
-- Added STL export branch for Bambu Studio / 3D printing
-- Added compact Abaqus `.inp` exporter to reduce unnecessary nodes
+- Separated `2x2x2` and `4x4x4` workflows
+- Added STL export for Bambu Studio / 3D printing
+- Added compact Abaqus `.inp` exporter
 - Added separated `Output`, `STL`, `Abaqus_Work`, and `Results` folders
-- Added `3D_print_note` for practical slicing and printing settings
+- Added practical 3D printing notes
 
 ---
 
-## Folder structure
+## Main Workflow
+
+```text
+curved-X topology
+→ voxel lattice generation
+→ 2x2x2 / 4x4x4 voxel repetition
+→ compact Abaqus INP export
+→ Abaqus compression simulation
+→ force-displacement and stress-strain curves
+→ STL export for 3D printing
+```
+
+---
+
+## Repository Structure
 
 ```text
 Curved_Rod_Voxel_Model/
@@ -74,153 +88,109 @@ Curved_Rod_Voxel_Model/
 
 ---
 
-## 2x2x2 usage
+## Quick Start
 
-### 1. MATLAB generation and export
+### 1. Generate voxel models in MATLAB
 
-Open MATLAB and set the current folder to:
-
-```text
-D:\Simulation\Curved_Rod_Voxel_Model\2x2x2
-```
-
-Then run:
+For `2x2x2`:
 
 ```matlab
+cd('D:\Simulation\Curved_Rod_Voxel_Model\2x2x2')
+
 batch_generate_curved_x
 batch_repeat222_and_export_inp
 batch_export_mat_voxel_to_stl_222
 ```
 
-### 2. Abaqus batch simulation
-
-Run from CMD:
-
-```cmd
-cd /d D:\Simulation\Curved_Rod_Voxel_Model\2x2x2
-abaqus cae noGUI=abaqus_batch_run_all.py
-```
-
-Run from PowerShell:
-
-```powershell
-Set-Location "D:\Simulation\Curved_Rod_Voxel_Model\2x2x2"
-abaqus cae noGUI=abaqus_batch_run_all.py
-```
-
-### 3. Python postprocessing
-
-Run from CMD:
-
-```cmd
-cd /d D:\Simulation\Curved_Rod_Voxel_Model\2x2x2
-python postprocess_summary_and_plots.py
-```
-
-Run from PowerShell:
-
-```powershell
-Set-Location "D:\Simulation\Curved_Rod_Voxel_Model\2x2x2"
-python postprocess_summary_and_plots.py
-```
-
-### 4. Check outputs
-
-```text
-Output/        Abaqus .inp files
-STL/           STL files for 3D printing
-Abaqus_Work/   Abaqus job folders
-Results/       force-displacement curves, stress-strain curves, summary files, and figures
-```
-
----
-
-## 4x4x4 usage
-
-### 1. MATLAB generation and export
-
-Open MATLAB and set the current folder to:
-
-```text
-D:\Simulation\Curved_Rod_Voxel_Model\4x4x4
-```
-
-Then run:
+For `4x4x4`:
 
 ```matlab
+cd('D:\Simulation\Curved_Rod_Voxel_Model\4x4x4')
+
 batch_generate_curved_x
 batch_repeat444_and_export_inp
 batch_export_mat_voxel_to_stl_444
 ```
 
-### 2. Abaqus batch simulation
+---
 
-Run from CMD:
+### 2. Run Abaqus compression simulation
 
-```cmd
-cd /d D:\Simulation\Curved_Rod_Voxel_Model\4x4x4
+For `2x2x2`:
+
+```powershell
+Set-Location "D:\Simulation\Curved_Rod_Voxel_Model\2x2x2"
 abaqus cae noGUI=abaqus_batch_run_all.py
 ```
 
-Run from PowerShell:
+For `4x4x4`:
 
 ```powershell
 Set-Location "D:\Simulation\Curved_Rod_Voxel_Model\4x4x4"
 abaqus cae noGUI=abaqus_batch_run_all.py
-```
-
-### 3. Python postprocessing
-
-Run from CMD:
-
-```cmd
-cd /d D:\Simulation\Curved_Rod_Voxel_Model\4x4x4
-python postprocess_summary_and_plots.py
-```
-
-Run from PowerShell:
-
-```powershell
-Set-Location "D:\Simulation\Curved_Rod_Voxel_Model\4x4x4"
-python postprocess_summary_and_plots.py
-```
-
-### 4. Check outputs
-
-```text
-Output/        Abaqus .inp files
-STL/           STL files for 3D printing
-Abaqus_Work/   Abaqus job folders
-Results/       force-displacement curves, stress-strain curves, summary files, and figures
 ```
 
 ---
 
-## Notes
+### 3. Run Python postprocessing
 
-### batch_generate_curved_x.m
+For `2x2x2`:
 
-Main MATLAB script for generating random curved-X voxel samples.
-
-It calls:
-
-- `GenerateVoxel.m`: builds the voxel model from the topology definition
-- `write_curved_x_topology.m`: writes the curved-X topology file
-- `save_sample_mat.m`: saves each generated sample as a `.mat` file
-
-Main outputs:
-
-```text
-batch_curved_x/mat/
-batch_curved_x/topology/
-batch_curved_x/preview/
-batch_curved_x/summary_random.csv
+```powershell
+Set-Location "D:\Simulation\Curved_Rod_Voxel_Model\2x2x2"
+python postprocess_summary_and_plots.py
 ```
 
-Main parameters to modify if needed:
+For `4x4x4`:
+
+```powershell
+Set-Location "D:\Simulation\Curved_Rod_Voxel_Model\4x4x4"
+python postprocess_summary_and_plots.py
+```
+
+---
+
+## Output Files
+
+| Folder | Description |
+|---|---|
+| `batch_curved_x/mat/` | Base single-cell voxel `.mat` samples |
+| `batch_curved_x/topology/` | Curved-X topology text files |
+| `batch_curved_x/preview/` | Preview images for selected samples |
+| `batch_curved_x/2x2x2_mat/` | Repeated `2x2x2` voxel `.mat` files |
+| `batch_curved_x/4x4x4_mat/` | Repeated `4x4x4` voxel `.mat` files |
+| `Output/` | Abaqus `.inp` files |
+| `STL/` | STL files for 3D printing |
+| `Abaqus_Work/` | Abaqus job folders and ODB files |
+| `Results/` | Curve CSV files, summary metrics, and figures |
+
+---
+
+## Main Scripts
+
+| Script | Function |
+|---|---|
+| `batch_generate_curved_x.m` | Generates random curved-X voxel samples |
+| `GenerateVoxel.m` | Converts topology definitions into voxel grids |
+| `write_curved_x_topology.m` | Writes curved-X topology files |
+| `save_sample_mat.m` | Saves accepted base samples |
+| `batch_repeat222_and_export_inp.m` | Builds `2x2x2` repeated specimens and exports Abaqus `.inp` files |
+| `batch_repeat444_and_export_inp.m` | Builds `4x4x4` repeated specimens and exports Abaqus `.inp` files |
+| `export_mat_voxel_to_abaqus_inp.m` | Converts repeated voxel `.mat` files into compact Abaqus mesh-only `.inp` files |
+| `batch_export_mat_voxel_to_stl_222.m` | Exports `2x2x2` STL files |
+| `batch_export_mat_voxel_to_stl_444.m` | Exports `4x4x4` STL files |
+| `abaqus_batch_run_all.py` | Runs Abaqus compression jobs and extracts curve CSV files |
+| `postprocess_summary_and_plots.py` | Generates summary metrics and plots |
+
+---
+
+## Key Parameters
+
+### MATLAB generation
+
+Modify these parameters in `batch_generate_curved_x.m` if needed:
 
 ```matlab
-rootDir
 targetN
 nVoxel
 radiusMin / radiusMax
@@ -229,14 +199,14 @@ densityMin / densityMax
 desiredWorkers
 ```
 
-For 3D printing, the rod diameter can be increased by modifying:
+For practical 3D printing, a thicker rod range is recommended:
 
 ```matlab
 radiusMin = 0.075;   % approximately 3.0 mm rod diameter
 radiusMax = 0.100;   % approximately 4.0 mm rod diameter
 ```
 
-The original smaller setting was approximately:
+Original smaller simulation setting:
 
 ```matlab
 radiusMin = 0.032;
@@ -245,23 +215,7 @@ radiusMax = 0.041;
 
 ---
 
-### batch_repeat222_and_export_inp.m / batch_repeat444_and_export_inp.m
-
-These scripts repeat each single-cell voxel sample into either a `2x2x2` or `4x4x4` specimen and export compact mesh-only Abaqus `.inp` files.
-
-They call:
-
-- `export_mat_voxel_to_abaqus_inp.m`: exports the repeated voxel model to Abaqus `.inp`
-- `save_repeat222_mat.m` or `save_repeat444_mat.m`: saves the repeated voxel model as a `.mat` file
-
-Main outputs:
-
-```text
-batch_curved_x/2x2x2_mat/ or batch_curved_x/4x4x4_mat/
-Output/
-```
-
-Default repeat settings:
+### Repetition scale
 
 ```matlab
 % 2x2x2 branch
@@ -279,77 +233,32 @@ voxelSize = [0.25 0.25 0.25];
 
 ---
 
-### batch_export_mat_voxel_to_stl_222.m / batch_export_mat_voxel_to_stl_444.m
+### Abaqus compression settings
 
-These scripts convert repeated voxel `.mat` files into STL files for 3D printing.
-
-Main output:
-
-```text
-STL/
-```
-
-The STL export is intended for slicers such as Bambu Studio.
-
----
-
-### abaqus_batch_run_all.py
-
-Abaqus batch simulation script.
-
-It automatically:
-
-- imports `.inp` files from `Output/`
-- creates material, section, step, node sets, and compression boundary conditions
-- submits Abaqus jobs one by one
-- extracts force–displacement and stress–strain curves from `.odb`
-- writes result CSV files into `Results/`
-
-Main outputs:
-
-```text
-Abaqus_Work/
-Results/
-```
-
-Main parameters to modify if needed:
-
-```python
-ROOT_DIR
-E_MODULUS
-POISSON_RATIO
-NUM_CPUS
-NUM_DOMAINS
-MAX_CASES
-DELETE_ODB_AFTER_EXTRACT
-```
-
-Recommended testing setting:
-
-```python
-MAX_CASES = 1
-```
-
-For running all cases:
-
-```python
-MAX_CASES = None
-```
-
-The default compression settings are:
+Default compression setup:
 
 ```text
 2x2x2: H0 = 40 mm, compression displacement = -8 mm
 4x4x4: H0 = 80 mm, compression displacement = -16 mm
 ```
 
+Recommended Abaqus testing setting:
+
+```python
+MAX_CASES = 1
+```
+
+Run all cases after validation:
+
+```python
+MAX_CASES = None
+```
+
 ---
 
-### postprocess_summary_and_plots.py
+## Postprocessing Outputs
 
-Normal Python postprocessing script.
-
-It reads the curve CSV files in `Results/` and generates:
+`postprocess_summary_and_plots.py` reads curve CSV files in `Results/` and generates:
 
 ```text
 summary_metrics.csv
@@ -359,16 +268,17 @@ top10_by_SEA.csv
 figures/
 ```
 
-Main parameters to modify if needed:
+Typical curve outputs include:
 
-```python
-ROOT_DIR
-SOLID_DENSITY_G_CM3
+```text
+*_force_displacement.csv
+*_stress_strain.csv
+*_all_response.csv
 ```
 
 ---
 
-## 3D printing
+## 3D Printing Notes
 
 For STL slicing and Bambu Studio settings, see:
 
@@ -376,7 +286,7 @@ For STL slicing and Bambu Studio settings, see:
 3D_print_note.txt
 ```
 
-Recommended workflow:
+Recommended initial workflow:
 
 ```text
 1) Generate STL files from MATLAB
@@ -386,11 +296,21 @@ Recommended workflow:
 5) Start with 2x2x2 specimens for faster printing tests
 ```
 
-For practical printing, the original 1.3–1.6 mm rod diameter may be too thin. A thicker range of approximately 3–4 mm is recommended for initial printing tests.
+For practical TPU printing, the original `1.3–1.6 mm` rod diameter may be too thin. A thicker `3–4 mm` rod diameter range is recommended for initial fabrication tests.
 
 ---
 
-## Version history
+## Notes
+
+- `2x2x2` is recommended for fast simulation and printing validation.
+- `4x4x4` is used for larger-scale mechanical simulation and dataset generation.
+- Keep Abaqus work and scratch folders on a large disk rather than the system drive.
+- This voxel branch is useful as a complete reference workflow for voxel-based curved-rod lattice generation.
+- For faster solid-strut stress contour generation, use the newer `CurviStrut-Lattice` tube-solid workflow.
+
+---
+
+## Version History
 
 ### V1.0
 
@@ -407,3 +327,9 @@ Main updates:
 - Added compact Abaqus `.inp` export
 - Added separated `Output`, `STL`, `Abaqus_Work`, and `Results` folders
 - Added practical 3D printing note
+
+---
+
+## License
+
+This project is released under the MIT License.
