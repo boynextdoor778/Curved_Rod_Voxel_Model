@@ -1,30 +1,35 @@
 # Curved Rod Voxel Model
 
-Author: Alex Lang  
-Version: V1.0 Single-scale 4x4x4 Abaqus simulation workflow
+![MATLAB](https://img.shields.io/badge/MATLAB-voxel%20generation-orange)
+![Abaqus](https://img.shields.io/badge/Abaqus-compression%20FEM-blue)
+![Python](https://img.shields.io/badge/Python-postprocessing-green)
+![Version](https://img.shields.io/badge/version-V1.0-lightgrey)
+![Workflow](https://img.shields.io/badge/workflow-4x4x4%20voxel%20baseline-brightgreen)
 
-This repository provides a MATLAB–Abaqus workflow for generating curved-rod voxel lattice specimens, exporting mesh-only Abaqus `.inp` files, running compression simulations, and automatically extracting force–displacement and stress–strain curves.
+**Author:** Alex Lang  
+**Version:** V1.0 Single-scale 4x4x4 Abaqus simulation workflow
 
-The V1.0 version focuses on the `4x4x4` lattice specimen workflow.
+A MATLAB–Abaqus workflow for generating curved-rod voxel lattice specimens, exporting mesh-only Abaqus `.inp` files, running compression simulations, and automatically extracting force–displacement and stress–strain curves.
 
----
-
-## Version
-
-Current version: V1.0
-
-Main features:
-
-- Generates random curved-X voxel lattice samples in MATLAB
-- Repeats each single-cell sample into a `4x4x4` specimen
-- Exports mesh-only Abaqus `.inp` files
-- Runs Abaqus compression simulations in batch mode
-- Extracts force–displacement and stress–strain curves automatically
-- Generates summary metrics and validation figures
+This V1.0 repository focuses on the original **4x4x4 voxel-based curved-rod lattice FEM workflow**.
 
 ---
 
-## Folder structure
+## Final Workflow in V1.0
+
+```text
+curved-X topology
+→ voxel lattice generation
+→ 4x4x4 voxel repetition
+→ Abaqus mesh-only INP export
+→ Abaqus compression simulation
+→ force-displacement and stress-strain curves
+→ summary metrics and figures
+```
+
+---
+
+## Folder Structure
 
 ```text
 Curved_Rod_Voxel_Model/
@@ -37,12 +42,14 @@ Curved_Rod_Voxel_Model/
 ├─ write_curved_x_topology.m
 ├─ save_sample_mat.m
 ├─ save_repeat444_mat.m
+│
 ├─ batch_curved_x/
 │  ├─ mat/
 │  ├─ topology/
 │  ├─ preview/
 │  ├─ 4x4x4_mat/
 │  └─ summary_random.csv
+│
 ├─ Output/
 ├─ Abaqus_Work/
 ├─ Results/
@@ -51,27 +58,17 @@ Curved_Rod_Voxel_Model/
 
 ---
 
-## Normal usage
+## Quick Start
 
-1. Run `batch_generate_curved_x.m`
-2. Run `batch_repeat444_and_export_inp.m`
-3. Run `abaqus_batch_run_all.py` in Abaqus/CAE noGUI mode
-4. Run `postprocess_summary_and_plots.py` with normal Python
-5. Check `Results/` for curves, summary metrics, and figures
+### 1. Generate voxel samples in MATLAB
 
----
-
-## Command line usage
-
-### 1. MATLAB
-
-Open MATLAB and set the project folder as the current folder:
+Open MATLAB and set the current folder to:
 
 ```text
 D:\Simulation\Curved_Rod_Voxel_Model
 ```
 
-Then run:
+Run:
 
 ```matlab
 batch_generate_curved_x
@@ -80,16 +77,16 @@ batch_repeat444_and_export_inp
 
 ---
 
-### 2. Abaqus batch simulation
+### 2. Run Abaqus batch simulation
 
-Run from CMD:
+From CMD:
 
 ```cmd
 cd /d D:\Simulation\Curved_Rod_Voxel_Model
 abaqus cae noGUI=abaqus_batch_run_all.py
 ```
 
-Run from PowerShell:
+From PowerShell:
 
 ```powershell
 Set-Location "D:\Simulation\Curved_Rod_Voxel_Model"
@@ -98,16 +95,16 @@ abaqus cae noGUI=abaqus_batch_run_all.py
 
 ---
 
-### 3. Python postprocessing
+### 3. Run Python postprocessing
 
-Run from CMD:
+From CMD:
 
 ```cmd
 cd /d D:\Simulation\Curved_Rod_Voxel_Model
 python postprocess_summary_and_plots.py
 ```
 
-Run from PowerShell:
+From PowerShell:
 
 ```powershell
 Set-Location "D:\Simulation\Curved_Rod_Voxel_Model"
@@ -116,104 +113,41 @@ python postprocess_summary_and_plots.py
 
 ---
 
-## Output folders
+## Main Scripts
 
-```text
-batch_curved_x/mat/          Single-cell voxel .mat files
-batch_curved_x/topology/     Curved-X topology .txt files
-batch_curved_x/preview/      Preview images
-batch_curved_x/4x4x4_mat/    Repeated 4x4x4 voxel .mat files
-Output/                      Abaqus .inp files
-Abaqus_Work/                 Abaqus job folders, .odb, .sta, .msg, .dat files
-Results/                     Curve CSV files, summary metrics, and figures
-```
-
----
-
-## Notes
-
-### batch_generate_curved_x.m
-
-Main MATLAB script for generating random curved-X voxel samples.
-
-It calls:
-
-- `GenerateVoxel.m`: builds the voxel model from the topology definition
-- `write_curved_x_topology.m`: writes the curved-X topology file
-- `save_sample_mat.m`: saves each generated sample as a `.mat` file
-
-Main outputs:
-
-```text
-batch_curved_x/mat/
-batch_curved_x/topology/
-batch_curved_x/preview/
-batch_curved_x/summary_random.csv
-```
+| Script | Function |
+|---|---|
+| `batch_generate_curved_x.m` | Generates random curved-X voxel samples. |
+| `GenerateVoxel.m` | Converts curved-X topology into voxel geometry. |
+| `write_curved_x_topology.m` | Writes the curved-X center/topology definition. |
+| `save_sample_mat.m` | Saves accepted single-cell voxel samples. |
+| `batch_repeat444_and_export_inp.m` | Repeats each sample into a 4x4x4 specimen and exports Abaqus `.inp`. |
+| `save_repeat444_mat.m` | Saves repeated 4x4x4 voxel `.mat` files. |
+| `export_mat_voxel_to_abaqus_inp.m` | Exports repeated voxel models into mesh-only Abaqus `.inp` files. |
+| `abaqus_batch_run_all.py` | Runs Abaqus compression jobs and extracts response curves. |
+| `postprocess_summary_and_plots.py` | Generates summary metrics, rankings, and figures. |
 
 ---
 
-### batch_repeat444_and_export_inp.m
+## Output Folders
 
-Main MATLAB script for repeating each single-cell sample into a `4x4x4` specimen and exporting mesh-only Abaqus `.inp` files.
-
-It calls:
-
-- `export_mat_voxel_to_abaqus_inp.m`: exports the repeated voxel model to Abaqus `.inp`
-- `save_repeat444_mat.m`: saves the repeated `4x4x4` voxel model as a `.mat` file
-
-Main outputs:
-
-```text
-batch_curved_x/4x4x4_mat/
-Output/
-```
+| Folder | Content |
+|---|---|
+| `batch_curved_x/mat/` | Single-cell voxel `.mat` files. |
+| `batch_curved_x/topology/` | Curved-X topology `.txt` files. |
+| `batch_curved_x/preview/` | Preview images of generated voxel structures. |
+| `batch_curved_x/4x4x4_mat/` | Repeated 4x4x4 voxel `.mat` files. |
+| `Output/` | Abaqus `.inp` files. |
+| `Abaqus_Work/` | Abaqus job folders and `.odb`, `.sta`, `.msg`, `.dat` files. |
+| `Results/` | Curve CSV files, summary metrics, and figures. |
 
 ---
 
-### abaqus_batch_run_all.py
+## Important Parameters
 
-Abaqus batch simulation script.
+### In `batch_generate_curved_x.m`
 
-It automatically:
-
-- scans all `.inp` files in the `Output/` folder
-- imports each `.inp` file as an Abaqus model
-- creates material, section, step, top/bottom node sets, and compression boundary conditions
-- submits Abaqus jobs one by one
-- extracts force–displacement and stress–strain curves from `.odb`
-- saves result CSV files into `Results/`
-
-Main outputs:
-
-```text
-Abaqus_Work/
-Results/
-```
-
----
-
-### postprocess_summary_and_plots.py
-
-Normal Python postprocessing script.
-
-It reads the curve CSV files in `Results/` and generates:
-
-```text
-summary_metrics.csv
-correlation_matrix.csv
-top10_by_energy_absorption.csv
-top10_by_SEA.csv
-figures/
-```
-
----
-
-## Important settings
-
-### In batch_generate_curved_x.m
-
-Modify if needed:
+Modify these parameters if needed:
 
 ```matlab
 rootDir
@@ -225,9 +159,22 @@ densityMin / densityMax
 desiredWorkers
 ```
 
+Default purpose:
+
+```text
+Generate random curved-X voxel samples and save accepted cases.
+```
+
 ---
 
-### In batch_repeat444_and_export_inp.m
+### In `batch_repeat444_and_export_inp.m`
+
+Main 4x4x4 settings:
+
+```matlab
+repeatN = [4 4 4];
+voxelSize = [0.25 0.25 0.25];
+```
 
 Modify if needed:
 
@@ -239,16 +186,17 @@ desiredWorkers
 overwriteExisting
 ```
 
-Default 4x4x4 setting:
-
-```matlab
-repeatN = [4 4 4];
-voxelSize = [0.25 0.25 0.25];
-```
-
 ---
 
-### In abaqus_batch_run_all.py
+### In `abaqus_batch_run_all.py`
+
+Default 4x4x4 compression settings:
+
+```python
+DISP_Z = -16.0
+H0 = 80.0
+A0 = 80.0 * 80.0
+```
 
 Modify if needed:
 
@@ -266,21 +214,13 @@ NUM_DOMAINS
 MAX_CASES
 ```
 
-Default 4x4x4 compression setting:
-
-```python
-DISP_Z = -16.0
-H0 = 80.0
-A0 = 80.0 * 80.0
-```
-
-For testing, use:
+For testing:
 
 ```python
 MAX_CASES = 1
 ```
 
-For running all cases, use:
+For all cases:
 
 ```python
 MAX_CASES = None
@@ -288,7 +228,7 @@ MAX_CASES = None
 
 ---
 
-### In postprocess_summary_and_plots.py
+### In `postprocess_summary_and_plots.py`
 
 Modify if needed:
 
@@ -300,8 +240,33 @@ SOLID_DENSITY_G_CM3
 
 ---
 
-## Version history
+## Generated Results
+
+The workflow can generate:
+
+```text
+force-displacement curves
+stress-strain curves
+summary_metrics.csv
+correlation_matrix.csv
+top10_by_energy_absorption.csv
+top10_by_SEA.csv
+figures/
+```
+
+---
+
+## Notes
+
+- V1.0 is the original single-scale **4x4x4 voxel FEM workflow**.
+- The Abaqus `.inp` files are exported as mesh-only models.
+- Material, step, boundary conditions, job submission, and curve extraction are handled automatically by `abaqus_batch_run_all.py`.
+- This version is useful as the original voxel baseline and as a reference for later tube-solid or centerline-based workflows.
+
+---
+
+## Version History
 
 ### V1.0
 
-Initial MATLAB–Abaqus workflow for curved-rod voxel lattice generation, `4x4x4` specimen export, Abaqus compression simulation, and automatic curve extraction.
+Initial MATLAB–Abaqus workflow for curved-rod voxel lattice generation, 4x4x4 specimen export, Abaqus compression simulation, and automatic force–displacement / stress–strain curve extraction.
